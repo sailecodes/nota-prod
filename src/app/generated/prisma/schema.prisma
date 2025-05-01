@@ -1,0 +1,135 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/app/generated/prisma"
+  previewFeatures = ["fullTextSearchPostgres"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String       @id @default(uuid())
+  sbId                String       @unique
+  email               String       @unique
+  username            String       @unique
+  firstName           String
+  lastName            String
+  teams               Team[]       @relation("TeamMembers") // TODO: Future ftr
+  roles               Role[] // TODO: Future ftr
+  uploads             Upload[]
+  totalMonthlyUploads Int          @default(0)
+  actionItems         ActionItem[]
+  subscription        Subscription @default(STARTER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// TODO: Future ftr
+model Team {
+  id           String   @id @default(uuid())
+  name         String
+  organization String?
+  members      User[]   @relation("TeamMembers")
+  roles        Role[]
+  uploads      Upload[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("teams")
+}
+
+// TODO: Future ftr
+model Role {
+  id     String   @id @default(uuid())
+  user   User     @relation(fields: [userId], references: [id])
+  userId String
+  type   RoleType @default(MEMBER)
+  team   Team     @relation(fields: [teamId], references: [id])
+  teamId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("roles")
+}
+
+model Upload {
+  id            String        @id @default(uuid())
+  title         String
+  fileUrl       String
+  processStatus ProcessStatus @default(TRANSCRIBING)
+  result        Result?
+  uploader      User          @relation(fields: [uploaderId], references: [id])
+  uploaderId    String
+  team          Team?         @relation(fields: [teamId], references: [id], onDelete: Cascade) // TODO: Future ftr
+  teamId        String? // TODO: Future ftr
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("uploads")
+}
+
+model Result {
+  id          String       @id @default(uuid())
+  summary     String
+  transcript  String
+  insights    String[] // TODO: Future ftr
+  actionItems ActionItem[]
+  upload      Upload       @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+  uploadId    String       @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("results")
+}
+
+model ActionItem {
+  id         String    @id @default(uuid())
+  action     String
+  assignee   User?     @relation(fields: [assigneeId], references: [id])
+  assigneeId String?
+  dueDate    DateTime?
+  dueStatus  DueStatus @default(TBD)
+  result     Result    @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  resultId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("action_items")
+}
+
+enum Subscription {
+  STARTER
+  TEAM
+  ORGANIZATION
+}
+
+enum RoleType {
+  MEMBER
+  LEAD
+}
+
+enum ProcessStatus {
+  TRANSCRIBING
+  SUMMARIZING
+  COMPLETED
+  FAILED
+}
+
+enum DueStatus {
+  TBD
+  NEW
+  UPCOMING
+  DUE_SOON
+  COMPLETED
+  OVERDUE
+}
