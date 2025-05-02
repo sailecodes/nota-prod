@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import "./globals.css";
 import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
-import "./globals.css";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -14,9 +14,8 @@ export const metadata: Metadata = {
     default: "Nota",
     template: "%s - Nota",
   },
-  // TODO: Be more descriptive
   description:
-    "An AI platform with a mission to create actionable summaries for individuals, teams, and organizations.",
+    "An AI Platform with a mission to deliver structured, actionable meeting summaries for individuals, teams, and organizations.",
 };
 
 export default function RootLayout({
