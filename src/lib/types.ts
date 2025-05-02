@@ -1,14 +1,9 @@
-import { redirect } from "next/navigation";
 import { z } from "zod";
 import { SERVER_ACTION_ERROR_TYPE } from "./enums";
 import { signInSchema, signUpSchema } from "./schemas";
 
 // =======================================================================
 // Commons
-
-export type TMetadata = Record<string, any>;
-
-export type TRedirectUrl = string;
 
 // =======================================================================
 // Server actions
@@ -17,23 +12,25 @@ export type TSignIn = z.infer<typeof signInSchema>;
 
 export type TSignUp = z.infer<typeof signUpSchema>;
 
-export type TServerActionSuccess<T, TMetadata> = {
+export type TServerActionSuccess<TData = undefined, TMetadata = undefined> = {
   success: true;
-  data: T;
-  metadata?: TMetadata | Record<string, any>;
-  redirectUrl?: TRedirectUrl;
-} & TRedirectUrl;
+  data?: TData;
+  metadata?: TMetadata & { redirectUrl?: string };
+};
 
-export type TServerActionFailure = {
+export type TServerActionFailure<TMetadata = undefined> = {
   success: false;
   error: string;
   type: SERVER_ACTION_ERROR_TYPE;
-} & TMetadata<undefined> &
-  TRedirectUrl;
+  metadata?: TMetadata & { redirectUrl?: string };
+};
 
-export type TServerActionResult<T, M = undefined> = TServerActionSuccess<T, M> | TServerActionFailure;
+export type TServerActionResult<TData = undefined, TMetadata = undefined> =
+  | TServerActionSuccess<TData, TMetadata>
+  | TServerActionFailure<TMetadata>;
 
-export type TServerActionErrorMetadata = {
+export type TServerActionErrorMetadata<TMetadata = undefined> = {
   type: SERVER_ACTION_ERROR_TYPE;
   origin?: string;
-} & TMetadata<undefined>;
+  metadata?: TMetadata;
+};

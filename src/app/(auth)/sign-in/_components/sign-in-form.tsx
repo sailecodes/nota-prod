@@ -10,9 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import { signInSchema } from "@/lib/schemas";
-import { TServerActionResult } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User as SbUser } from "@supabase/supabase-js";
 import { PasswordInput } from "../../../../components/password-input";
 import { signIn } from "../_actions/sign-in";
 
@@ -25,13 +23,13 @@ export default function SignInForm() {
     },
   });
   const router = useRouter();
-  const [error, setError] = useState<string>();
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSigningIn(true);
 
-    const result = (await signIn(data)) as TServerActionResult<{ user: SbUser }>;
+    const result = await signIn(data);
 
     if (!result.success) {
       if (result.type === SERVER_ACTION_ERROR_TYPE.UI) {
@@ -40,9 +38,9 @@ export default function SignInForm() {
       }
 
       setIsSigningIn(false);
-    } else if (result.success) {
-      toast.success(`Welcome ${result.data.user.user_metadata.firstName}! 👋🏻`);
-      router.push(result.redirectUrl!);
+    } else {
+      toast.success(`Welcome ${result.data!.user.user_metadata.firstName}! 👋🏻`);
+      router.push(result.metadata!.redirectUrl);
     }
   };
 
@@ -57,7 +55,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-background" />
+                <Input {...field} className="bg-background" onInput={() => setError(undefined)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,7 +68,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} className="bg-background" />
+                <PasswordInput {...field} className="bg-background" onInput={() => setError(undefined)} />
               </FormControl>
               <FormMessage />
             </FormItem>

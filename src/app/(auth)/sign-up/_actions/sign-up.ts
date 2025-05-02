@@ -9,7 +9,9 @@ import { createClient } from "@/lib/supabase/server";
 import { TServerActionResult } from "@/lib/types";
 import { createServerAction } from "@/lib/utils";
 
-export const signUp = createServerAction(async function (data: z.infer<typeof signUpSchema>): Promise<TServerActionResult<null>> {
+export const signUp = createServerAction(async function (
+  data: z.infer<typeof signUpSchema>,
+): Promise<TServerActionResult<undefined, { email: string }>> {
   try {
     const { data: parsedData, error: parseError } = signUpSchema.safeParse(data);
 
@@ -41,7 +43,7 @@ export const signUp = createServerAction(async function (data: z.infer<typeof si
       },
     });
 
-    return { success: true, data: null, redirectUrl: "/sign-in" };
+    return { success: true, metadata: { email: parsedData.email } };
   } catch (err) {
     // TODO: Implement rollback
     throw err;

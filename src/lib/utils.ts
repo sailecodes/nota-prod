@@ -2,23 +2,37 @@ import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ServerActionError } from "./classes";
 import { SERVER_ACTION_ERROR_TYPE } from "./enums";
-import { TServerActionFailure, TServerActionResult, TServerActionSuccess } from "./types";
+import { TServerActionResult } from "./types";
+
+// =======================================================================
+// Tailwind CSS
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 // =======================================================================
-// Server actions
+// Server Actions
 
-export function createServerAction<TArgs extends any[], TReturn>(fn: (...args: TArgs) => Promise<TReturn>) {
-  return async (...args: TArgs): Promise<TServerActionResult<TReturn>> => {
+/*
+__ USAGE:
+
+export const serverAction = createServerAction<[string, string, number], number>(
+  async function (a: string, b: string, c: number): Promise<number> {
+    try { ... return 1; }
+    catch (err) { ... return -1; }
+  });
+*/
+export function createServerAction<TArgs extends any[], TReturn extends TServerActionResult<any, any>>(
+  fn: (...args: TArgs) => Promise<TReturn>,
+) {
+  return async (...args: TArgs): Promise<TReturn> => {
     try {
-      const result = (await fn(...args)) as TServerActionSuccess<TReturn>;
+      const result = await fn(...args);
 
-      return result as TServerActionSuccess<TReturn, typeof result.metadata>;
+      return result;
     } catch (err) {
-      console.error("[Server action verb.] ", err);
+      console.error("[Server action -- verbatim] ", err);
 
       let error = "Something went wrong. Please try again.";
       let type = SERVER_ACTION_ERROR_TYPE.UNKNOWN;
@@ -28,13 +42,13 @@ export function createServerAction<TArgs extends any[], TReturn>(fn: (...args: T
         type = err.metadata.type;
       }
 
-      console.error(`[Server action mod.] Type ${type}:`, error);
+      console.error(`[Server action -- simplified] Type ${type}:`, error);
 
       return {
         success: false,
         error,
         type,
-      } as TServerActionFailure;
+      } as TReturn;
     }
   };
 }

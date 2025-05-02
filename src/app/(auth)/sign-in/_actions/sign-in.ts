@@ -11,7 +11,7 @@ import { User as SbUser } from "@supabase/supabase-js";
 
 export const signIn = createServerAction(async function (
   data: z.infer<typeof signInSchema>,
-): Promise<TServerActionResult<{ user: SbUser }>> {
+): Promise<TServerActionResult<{ user: SbUser }, { redirectUrl: string }>> {
   try {
     const { data: parsedData, error: parseError } = signInSchema.safeParse(data);
 
@@ -23,7 +23,7 @@ export const signIn = createServerAction(async function (
     if (signInError) throw new ServerActionError(signInError.message, { type: SERVER_ACTION_ERROR_TYPE.UI });
     else if (!user || !user.user) throw new ServerActionError();
 
-    return { success: true, data: { user: user.user }, redirectUrl: "/dashboard" };
+    return { success: true, data: { user: user.user }, metadata: { redirectUrl: "/dashboard" } };
   } catch (err) {
     throw err;
   }

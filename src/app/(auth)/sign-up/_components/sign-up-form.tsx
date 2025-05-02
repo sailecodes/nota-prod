@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,7 +13,7 @@ import { signUpSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUp } from "../_actions/sign-up";
 
-export default function SignInForm() {
+export default function SignUpForm() {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -25,9 +24,8 @@ export default function SignInForm() {
       lastName: "",
     },
   });
-  const router = useRouter();
-  const [error, setError] = useState<string>();
-  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSigningUp(true);
@@ -37,8 +35,7 @@ export default function SignInForm() {
     if (!result.success && result.type === SERVER_ACTION_ERROR_TYPE.UI) {
       setError(result.error);
     } else {
-      toast.success("Check your email to confirm your account!");
-      router.push(result.redirectUrl!);
+      toast.success(`Check ${result.metadata!.email} to confirm your account!`);
     }
 
     setIsSigningUp(false);
@@ -55,7 +52,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-background" />
+                <Input {...field} type="email" autoComplete="email" className="bg-background" onInput={() => setError(undefined)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,7 +65,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} className="bg-background" />
+                <PasswordInput {...field} autoComplete="new-password" className="bg-background" onInput={() => setError(undefined)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +78,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-background" />
+                <Input {...field} autoComplete="username" className="bg-background" onInput={() => setError(undefined)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -94,7 +91,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-background" />
+                <Input {...field} autoComplete="given-name" className="bg-background" onInput={() => setError(undefined)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -107,7 +104,7 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-background" />
+                <Input {...field} autoComplete="family-name" className="bg-background" onInput={() => setError(undefined)} />
               </FormControl>
               <FormMessage />
             </FormItem>
