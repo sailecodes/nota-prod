@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-function PasswordInput({ className, type, ...props }: React.ComponentProps<"input">) {
+function PasswordInput({ className, ...props }: React.ComponentProps<"input">) {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   return (
