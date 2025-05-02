@@ -7,20 +7,23 @@ import { signInSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { TServerActionResult } from "@/lib/types";
 import { createServerAction } from "@/lib/utils";
+import { User as SbUser } from "@supabase/supabase-js";
 
-export const signIn = createServerAction(async function (data: z.infer<typeof signInSchema>): Promise<TServerActionResult<null>> {
+export const signIn = createServerAction(async function (
+  data: z.infer<typeof signInSchema>,
+): Promise<TServerActionResult<{ user: SbUser }>> {
   try {
     const { data: parsedData, error: parseError } = signInSchema.safeParse(data);
 
     if (parseError) throw new ServerActionError(parseError.issues[0].message, { type: SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     const supabase = await createClient();
-    const { data: user, error: sbError } = await supabase.auth.signInWithPassword({ ...parsedData });
+    const { data: user, error: signInError } = await supabase.auth.signInWithPassword({ ...parsedData });
 
-    if (sbError) throw new ServerActionError(sbError.message, { type: SERVER_ACTION_ERROR_TYPE.UI });
+    if (signInError) throw new ServerActionError(signInError.message, { type: SERVER_ACTION_ERROR_TYPE.UI });
     else if (!user || !user.user) throw new ServerActionError();
 
-    return { success: true, data: null, redirectUrl: "/dashboard" };
+    return { success: true, data: { user: user.user }, redirectUrl: "/dashboard" };
   } catch (err) {
     throw err;
   }

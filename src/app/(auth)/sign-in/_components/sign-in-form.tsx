@@ -10,7 +10,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import { signInSchema } from "@/lib/schemas";
+import { TServerActionResult } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User as SbUser } from "@supabase/supabase-js";
 import { PasswordInput } from "../../../../components/password-input";
 import { signIn } from "../_actions/sign-in";
 
@@ -29,16 +31,19 @@ export default function SignInForm() {
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSigningIn(true);
 
-    const result = await signIn(data);
+    const result = (await signIn(data)) as TServerActionResult<{ user: SbUser }>;
 
-    if (!result.success && result.type === SERVER_ACTION_ERROR_TYPE.UI) {
-      if (result.error.includes("credentials")) setError("Invalid email or password");
-      else if (result.error.includes("confirmed")) toast.info("Please confirm your email before signing in.");
-    } else {
+    if (!result.success) {
+      if (result.type === SERVER_ACTION_ERROR_TYPE.UI) {
+        if (result.error.includes("credentials")) setError("Invalid email or password");
+        else if (result.error.includes("confirmed")) toast.info("Please confirm your email before signing in.");
+      }
+
+      setIsSigningIn(false);
+    } else if (result.success) {
+      toast.success(`Welcome ${result.data.user.user_metadata.firstName}! 👋🏻`);
       router.push(result.redirectUrl!);
     }
-
-    setIsSigningIn(false);
   };
 
   return (
