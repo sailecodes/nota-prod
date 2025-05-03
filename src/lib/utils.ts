@@ -1,5 +1,6 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { DueStatus, ProcessStatus } from "@/app/generated/prisma";
 import { ServerActionError } from "./classes";
 import { SERVER_ACTION_ERROR_TYPE } from "./enums";
 import { TServerActionResult } from "./types";
@@ -9,6 +10,36 @@ import { TServerActionResult } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+// =======================================================================
+// General
+
+export function parseStatus(status: DueStatus | ProcessStatus) {
+  if (status === "TBD") return status;
+
+  return status
+    .toLowerCase()
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+// =======================================================================
+// Meetings
+
+export function getMeetingStatusBadgeColor(status: ProcessStatus) {
+  if (status === ProcessStatus.TRANSCRIBING) return "bg-violet-100 text-violet-800";
+  else if (status === ProcessStatus.SUMMARIZING) return "bg-blue-100 text-blue-800";
+  else if (status === ProcessStatus.COMPLETED) return "bg-green-100 text-green-800";
+  else if (status === ProcessStatus.FAILED) return "bg-red-100 text-red-800";
+  else return "bg-gray-100 text-gray-800";
+}
+
+export function getMeetingSkeletonColor(status: ProcessStatus) {
+  if (status === ProcessStatus.TRANSCRIBING) return "bg-violet-200/50";
+  else if (status === ProcessStatus.SUMMARIZING) return "bg-blue-200/50";
+  else return "bg-gray-200/50";
 }
 
 // =======================================================================
