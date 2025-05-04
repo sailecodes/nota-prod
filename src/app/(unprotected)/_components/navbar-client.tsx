@@ -15,7 +15,7 @@ export default function NavbarClient({ isAuthenticated }: INavbarClientProps) {
   return (
     <motion.nav
       style={{ backgroundColor, boxShadow, borderColor }}
-      className="sticky top-4 z-50 mx-4 mb-10 flex flex-row justify-between rounded-xl border px-6 py-6 shadow-sm"
+      className="sticky top-4 z-50 mx-8 mb-10 flex flex-row justify-between rounded-xl border px-6 py-6 shadow-sm"
     >
       <span className="text-3xl font-extrabold tracking-tighter">Nota</span>
       <div>

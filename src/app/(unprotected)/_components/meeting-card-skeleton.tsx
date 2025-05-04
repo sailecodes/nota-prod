@@ -19,7 +19,13 @@ export default function MeetingCardSkeleton({ title, processStatus, uploader, cr
       <CardContent className="space-y-2">
         <div className="text-muted-foreground mb-3 flex items-center gap-2 text-sm">
           <Calendar className="h-4 w-4" />
-          <span>{createdAt.toLocaleDateString()}</span>
+          <span>
+            {createdAt.toLocaleDateString(undefined, {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </span>
         </div>
         <div className="mb-3 space-y-2">
           <Skeleton className={`h-[18px] w-full ${getMeetingSkeletonColor(processStatus)}`} />

@@ -19,7 +19,7 @@ export default function SignIn() {
         <SignInForm />
       </Card>
       <div className="text-sm">
-        <span>Don&apos;t have an account? </span>
+        <p>Don&apos;t have an account? </p>
         <Link href="/sign-up" className="hover:underline">
           Sign up
         </Link>

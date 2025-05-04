@@ -4,12 +4,12 @@ import MeetingCardSkeleton from "./meeting-card-skeleton";
 
 export default function Hero() {
   return (
-    <section className="bg-background flex h-[35rem] gap-12 overflow-hidden rounded-xl border px-18 py-6 shadow-sm">
+    <section className="bg-background mx-4 mb-20 flex h-[35rem] gap-12 overflow-hidden rounded-xl border px-18 py-6 shadow-sm">
       <div className="flex h-full flex-1/2 flex-col justify-center space-y-4">
         <h1 className="text-6xl leading-[4.5rem] font-bold tracking-tight">AI-Powered Meeting Notes</h1>
-        <p className="text-muted-foreground text-lg font-medium">
-          Turn conversations into actionable insights — summaries, transcripts, and more, all in one place.
-        </p>
+        <h3 className="text-muted-foreground text-lg font-medium">
+          Conversations transform into actionable insights — summaries, transcripts, and more, all in one place.
+        </h3>
         {/* TODO: */}
         <Button variant="outline" className="w-fit">
           Test the app
