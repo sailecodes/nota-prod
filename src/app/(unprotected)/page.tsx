@@ -20,9 +20,20 @@ export default function Home() {
       <Companies />
       <Features />
       <Pricing />
-      {/*
-      <footer></footer>
-      */}
+      <footer className="mx-6 mb-12 flex justify-between">
+        <div className="max-w-[350px] space-y-1">
+          <p className="text-3xl font-bold">Nota</p>
+          <p className="text-muted-foreground text-sm">
+            AI Platform with a mission to deliver structured, actionable meeting summaries to everyone.
+          </p>
+        </div>
+      </footer>
+      <aside className="text-muted-foreground space-y-1 text-center text-xs">
+        <p>© 2025 Elias IV Roman. All rights reserved.</p>
+        <p>
+          Design inspired by <a href="https://cal.com">Cal.com</a>.
+        </p>
+      </aside>
     </main>
   );
 }

@@ -2,7 +2,7 @@ import PricingCard from "./pricing-card";
 
 export default function Pricing() {
   return (
-    <section className="mx-6 flex flex-col items-center space-y-10 py-6">
+    <section className="mx-6 mb-48 flex flex-col items-center space-y-10 py-6">
       <div className="flex flex-col items-center space-y-4">
         <h2 className="text-center text-3xl font-semibold tracking-tight md:text-5xl">Start free. Scale with your ambitions</h2>
         <h3 className="text-muted-foreground max-w-[700px] text-center text-base md:text-lg">
