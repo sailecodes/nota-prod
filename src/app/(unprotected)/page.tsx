@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Companies from "./_components/companies";
 import Features from "./_components/features";
 import Hero from "./_components/hero";
 import Navbar from "./_components/navbar";
@@ -14,10 +13,9 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="mx-auto min-h-[200vh] max-w-[1200px] py-4">
+    <main className="mx-auto min-h-screen max-w-[1200px] py-4">
       <Navbar />
       <Hero />
-      <Companies />
       <Features />
       <Pricing />
       <footer className="mx-6 mb-12 flex justify-between">
@@ -28,10 +26,14 @@ export default function Home() {
           </p>
         </div>
       </footer>
-      <aside className="text-muted-foreground space-y-1 text-center text-xs">
+      <aside className="text-muted-foreground mx-6 space-y-1 text-center text-xs">
         <p>© 2025 Elias IV Roman. All rights reserved.</p>
         <p>
-          Design inspired by <a href="https://cal.com">Cal.com</a>.
+          Design inspired by{" "}
+          <a href="https://cal.com" className="hover:underline">
+            Cal.com
+          </a>
+          .
         </p>
       </aside>
     </main>

@@ -10,9 +10,9 @@ export default function MeetingCardSkeleton({ title, processStatus, uploader, cr
   return (
     <Card className={cn("h-[350px] w-full justify-between", className)}>
       <CardHeader>
-        <div className="flex items-center justify-between gap-6">
-          <CardTitle className="line-clamp-2 leading-5">{title}</CardTitle>
-          <Badge className={getMeetingStatusBadgeColor(processStatus)}>{parseStatus(processStatus)}</Badge>
+        <div className="xs:flex-row xs:items-center xs:gap-6 flex flex-col justify-between gap-2">
+          <CardTitle className="xs:order-first order-last line-clamp-2 leading-5">{title}</CardTitle>
+          <Badge className={cn(getMeetingStatusBadgeColor(processStatus), "xs:order-last order-first")}>{parseStatus(processStatus)}</Badge>
         </div>
         <CardDescription>Uploaded by {uploader}</CardDescription>
       </CardHeader>
