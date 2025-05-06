@@ -1,4 +1,6 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { cookies } from "next/headers";
+import { Separator } from "@/components/ui/separator";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import CustomSidebar from "./_components/custom-sidebar";
 
 export default async function DashboardLayout({
@@ -6,10 +8,19 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      defaultOpen={defaultOpen}
+      className="bg-sidebar-primary-foreground">
       <CustomSidebar />
-      <main>{children}</main>
+      <main className="bg-muted m-2 flex-1 rounded-xl border">
+        <SidebarTrigger className="my-3 px-7" />
+        <Separator />
+        {children}
+      </main>
     </SidebarProvider>
   );
 }

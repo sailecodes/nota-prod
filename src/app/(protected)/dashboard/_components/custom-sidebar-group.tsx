@@ -22,13 +22,15 @@ export default function CustomSidebarGroup({
   className,
 }: ICustomSidebarGroupProps) {
   return (
-    <SidebarGroup className={cn(className)}>
+    <SidebarGroup className={cn("pr-0", className)}>
       {hasGroupLabel && <SidebarGroupLabel>{labelText}</SidebarGroupLabel>}
       <SidebarGroupContent>
         <SidebarMenu>
           {isPrimaryBtn ? (
             <SidebarMenuItem>
-              <Button size="lg" className="w-full">
+              <Button
+                size="lg"
+                className="w-full">
                 {BtnIcon && <BtnIcon />}
                 {btnText}
               </Button>

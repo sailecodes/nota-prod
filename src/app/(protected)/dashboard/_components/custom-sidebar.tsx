@@ -14,7 +14,7 @@ export default async function CustomSidebar() {
   const { firstName, lastName, username } = user.user.user_metadata;
 
   return (
-    <Sidebar>
+    <Sidebar className="border-none">
       <SidebarHeader className="px-4 text-3xl font-extrabold tracking-tighter">Nota</SidebarHeader>
       <SidebarContent>
         <CustomSidebarGroup
