@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
+import { E_SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import { signInSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordInput } from "../../../../components/password-input";
@@ -32,7 +32,7 @@ export default function SignInForm() {
     const result = await signIn(data);
 
     if (!result.success) {
-      if (result.type === SERVER_ACTION_ERROR_TYPE.UI) {
+      if (result.type === E_SERVER_ACTION_ERROR_TYPE.UI) {
         if (result.error.includes("credentials")) setError("Invalid email or password");
         else if (result.error.includes("confirmed")) toast.info("Please confirm your email before signing in.");
       }
@@ -47,7 +47,9 @@ export default function SignInForm() {
   return (
     <Form {...form}>
       {error && <p className="text-destructive text-sm">{error}</p>}
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -55,7 +57,11 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-background" onInput={() => setError(undefined)} />
+                <Input
+                  {...field}
+                  className="bg-background"
+                  onInput={() => setError(undefined)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,13 +74,21 @@ export default function SignInForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} className="bg-background" onInput={() => setError(undefined)} />
+                <PasswordInput
+                  {...field}
+                  className="bg-background"
+                  onInput={() => setError(undefined)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" size="lg" disabled={isSigningIn} className="w-full hover:cursor-pointer">
+        <Button
+          type="submit"
+          size="lg"
+          disabled={isSigningIn}
+          className="w-full hover:cursor-pointer">
           {isSigningIn ? "Signing in..." : "Sign in"}
         </Button>
       </form>

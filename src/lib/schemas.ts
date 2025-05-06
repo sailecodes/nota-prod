@@ -17,3 +17,7 @@ export const userInformationSchema = z.object({
   firstName: z.string().min(1, "Required field"),
   lastName: z.string().min(1, "Required field"),
 });
+
+export const emailAddressSchema = z.object({
+  email: z.string().min(1, "Required field").email("Invalid email address"),
+});

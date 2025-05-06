@@ -2,13 +2,16 @@
 
 import { z } from "zod";
 import { ServerActionError } from "@/lib/classes";
-import { SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
+import { E_SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import prisma from "@/lib/prisma";
-import { userInformationSchema } from "@/lib/schemas";
+import { emailAddressSchema, userInformationSchema } from "@/lib/schemas";
 import { createClient } from "@/lib/supabase/server";
+import { TServerActionResult } from "@/lib/types";
 import { createServerAction } from "@/lib/utils";
 
-export const updateUserInformation = createServerAction(async function (data: z.infer<typeof userInformationSchema>) {
+export const updateUserInformation = createServerAction(async function (
+  data: z.infer<typeof userInformationSchema>,
+): Promise<TServerActionResult<undefined, undefined>> {
   try {
     const supabase = await createClient();
     const {
@@ -16,18 +19,60 @@ export const updateUserInformation = createServerAction(async function (data: z.
       error: sbClientError,
     } = await supabase.auth.getUser();
 
-    if (sbClientError) throw new ServerActionError(sbClientError.message, { type: SERVER_ACTION_ERROR_TYPE.KNOWN });
+    if (sbClientError) throw new ServerActionError(sbClientError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
     else if (!sbUser) throw new ServerActionError();
 
     const { data: parsedData, error: parseError } = userInformationSchema.safeParse(data);
 
-    if (parseError) throw new ServerActionError(parseError.message, { type: SERVER_ACTION_ERROR_TYPE.KNOWN });
+    if (parseError) throw new ServerActionError(parseError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     const { error: updateUserError } = await supabase.auth.updateUser({
       data: { ...parsedData },
     });
 
-    if (updateUserError) throw new ServerActionError(updateUserError.message, { type: SERVER_ACTION_ERROR_TYPE.KNOWN });
+    if (updateUserError) throw new ServerActionError(updateUserError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+
+    await prisma.user.update({
+      where: { sbId: sbUser.id },
+      data: { ...parsedData },
+    });
+
+    return { success: true };
+  } catch (err) {
+    // TODO: Implement rollback
+    throw err;
+  }
+});
+
+export const changeEmailAddress = createServerAction(async function (
+  data: z.infer<typeof emailAddressSchema>,
+): Promise<TServerActionResult<undefined, undefined>> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user: sbUser },
+      error: sbClientError,
+    } = await supabase.auth.getUser();
+
+    if (sbClientError) throw new ServerActionError(sbClientError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+    else if (!sbUser) throw new ServerActionError();
+
+    const { data: parsedData, error: parseError } = emailAddressSchema.safeParse(data);
+
+    if (parseError) throw new ServerActionError(parseError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+
+    const userWithEmail = await prisma.user.findFirst({
+      where: { ...parsedData },
+    });
+
+    if (userWithEmail) throw new ServerActionError("Email is already registered", { type: E_SERVER_ACTION_ERROR_TYPE.UI });
+
+    const { error: updateUserError } = await supabase.auth.updateUser(
+      { ...parsedData },
+      { emailRedirectTo: `${process.env.LOCAL_URL}/dashboard/account` },
+    );
+
+    if (updateUserError) throw new ServerActionError(updateUserError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     await prisma.user.update({
       where: { sbId: sbUser.id },

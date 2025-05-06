@@ -25,14 +25,14 @@ export default function ProfileInformation({ user }: { user: User }) {
   });
   const formVals = form.watch();
 
-  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleFormSubmit = async (data: z.infer<typeof userInformationSchema>) => {
-    setIsUpdating(true);
+    setIsSubmitting(true);
 
     const result = await updateUserInformation(data);
 
-    setIsUpdating(false);
+    setIsSubmitting(false);
 
     if (!result.success) toast.error("Something went wrong. Please try again.");
     else toast.success("User information updated!");
@@ -77,9 +77,9 @@ export default function ProfileInformation({ user }: { user: User }) {
             <Button
               type="submit"
               variant="secondary"
-              disabled={isUpdating || (formVals.firstName === firstName && formVals.lastName === lastName)}
+              disabled={isSubmitting || (formVals.firstName === firstName && formVals.lastName === lastName)}
               className="xs:ml-auto xs:self-end w-[130px]">
-              {isUpdating ? "Updating..." : "Update"}
+              {isSubmitting ? "Submitting..." : "Update"}
             </Button>
           </form>
         </Form>

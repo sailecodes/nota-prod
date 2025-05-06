@@ -2,7 +2,7 @@ import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { DueStatus, ProcessStatus } from "@/app/generated/prisma";
 import { ServerActionError } from "./classes";
-import { SERVER_ACTION_ERROR_TYPE } from "./enums";
+import { E_SERVER_ACTION_ERROR_TYPE } from "./enums";
 import { TServerActionResult } from "./types";
 
 // =======================================================================
@@ -70,7 +70,7 @@ export function createServerAction<TArgs extends any[], TReturn extends TServerA
       console.error("[Server action -- verbatim] ", err);
 
       let error = "Something went wrong. Please try again.";
-      let type = SERVER_ACTION_ERROR_TYPE.UNKNOWN;
+      let type = E_SERVER_ACTION_ERROR_TYPE.UNKNOWN;
 
       if (err instanceof ServerActionError && err.metadata) {
         error = err.message;
