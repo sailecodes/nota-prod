@@ -12,3 +12,8 @@ export const signUpSchema = z.object({
   firstName: z.string().min(1, "Required field"),
   lastName: z.string().min(1, "Required field"),
 });
+
+export const userInformationSchema = z.object({
+  firstName: z.string().min(1, "Required field"),
+  lastName: z.string().min(1, "Required field"),
+});

@@ -19,7 +19,7 @@ export default async function DashboardLayout({
       <main className="bg-muted m-2 flex-1 rounded-xl border">
         <SidebarTrigger className="my-3 px-7" />
         <Separator />
-        {children}
+        <section className="mx-auto max-w-7xl p-5">{children}</section>
       </main>
     </SidebarProvider>
   );

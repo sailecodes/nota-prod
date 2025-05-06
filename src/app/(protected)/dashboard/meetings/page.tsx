@@ -14,39 +14,37 @@ export default async function Meetings() {
   */
 
   return (
-    <section className="mx-auto max-w-7xl space-y-[25px] p-6">
-      <div className="grid [grid-template-columns:repeat(auto-fit,minmax(0,375px))] justify-center gap-3">
-        {/* 
+    <div className="grid [grid-template-columns:repeat(auto-fit,minmax(0,375px))] justify-center gap-3">
+      {/* 
           {
             meetings.length === 0 && <p>No meetings found :(</p>
           }
         */}
-        {Array.from([1]).map((ind) => (
-          <>
-            <MeetingCard
-              title="upload-thing.mp3"
-              processStatus={ProcessStatus.FAILED}
-              createdAt={new Date("February 27, 1998")}
-              meetingId="belkjalsf"
-              uploader={null}
-            />
-            <MeetingCard
-              title="upload-thing.mp3"
-              processStatus={ProcessStatus.COMPLETED}
-              createdAt={new Date("February 27, 1998")}
-              meetingId="belkjalsf"
-              uploader={null}
-            />
-            <MeetingCard
-              title="upload-thing.mp3"
-              processStatus={ProcessStatus.TRANSCRIBING}
-              createdAt={new Date("February 27, 1998")}
-              meetingId="belkjalsf"
-              uploader={null}
-            />
-          </>
-        ))}
-      </div>
-    </section>
+      {Array.from([1]).map((ind) => (
+        <>
+          <MeetingCard
+            title="upload-thing.mp3"
+            processStatus={ProcessStatus.FAILED}
+            createdAt={new Date("February 27, 1998")}
+            meetingId="belkjalsf"
+            uploader={null}
+          />
+          <MeetingCard
+            title="upload-thing.mp3"
+            processStatus={ProcessStatus.COMPLETED}
+            createdAt={new Date("February 27, 1998")}
+            meetingId="belkjalsf"
+            uploader={null}
+          />
+          <MeetingCard
+            title="upload-thing.mp3"
+            processStatus={ProcessStatus.TRANSCRIBING}
+            createdAt={new Date("February 27, 1998")}
+            meetingId="belkjalsf"
+            uploader={null}
+          />
+        </>
+      ))}
+    </div>
   );
 }
