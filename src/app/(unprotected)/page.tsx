@@ -20,7 +20,7 @@ export default function Home() {
       <Pricing />
       <footer className="mx-6 mb-12 flex justify-between">
         <div className="max-w-[350px] space-y-1">
-          <p className="text-3xl font-bold">Nota</p>
+          <p className="text-3xl font-extrabold tracking-tighter">Nota</p>
           <p className="text-muted-foreground text-sm">
             AI Platform with a mission to deliver structured, actionable meeting summaries to everyone.
           </p>
