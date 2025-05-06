@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import CustomSidebar from "./_components/custom-sidebar";
+import CustomSidebar from "./(dashboard)/_components/custom-sidebar";
 
 export default async function DashboardLayout({
   children,
