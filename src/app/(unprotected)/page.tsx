@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="mx-auto min-h-screen max-w-[1200px] py-4">
+    <main className="mx-auto min-h-screen max-w-[1200px] pb-4 lg:py-4">
       <Navbar />
       <Hero />
       <Features />

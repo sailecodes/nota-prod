@@ -11,10 +11,10 @@ export default function Hero() {
           Make every meeting count
         </h1>
         <h3 className="text-muted-foreground mx-auto max-w-[700px] text-center text-lg font-medium lg:mx-0 lg:text-left">
-          Conversations transform into actionable insights — summaries, transcripts, and more, all in one place.
+          Turn conversations into actionable insights — with summaries, transcripts, and more, all in one place.
         </h3>
         {/* TODO: */}
-        <Button variant="outline" className="mx-auto w-fit lg:mx-0">
+        <Button variant="outline" size="lg" className="mx-auto w-fit lg:mx-0">
           Test the app
         </Button>
       </div>
