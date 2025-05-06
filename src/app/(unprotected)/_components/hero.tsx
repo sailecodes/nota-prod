@@ -4,7 +4,6 @@ import MeetingCardSkeleton from "../../../components/meeting-card-skeleton";
 
 export default function Hero() {
   return (
-    // <section className="bg-background mx-6 mb-48 flex h-[35rem] gap-12 overflow-hidden rounded-xl border px-18 py-6 shadow-sm">
     <section className="bg-background mx-6 mb-48 flex flex-col gap-24 overflow-hidden rounded-xl border px-8 pt-24 pb-0 shadow-sm lg:h-[35rem] lg:flex-row lg:gap-12 lg:px-18 lg:py-24">
       <div className="flex h-full flex-1/2 flex-col justify-center space-y-4">
         <h1 className="text-center text-5xl leading-tight font-bold tracking-tight md:text-6xl lg:text-left lg:leading-[4.5rem]">
@@ -24,7 +23,6 @@ export default function Hero() {
           processStatus={ProcessStatus.TRANSCRIBING}
           uploader="Jane D."
           createdAt={new Date("February 27, 2025")}
-          // className="absolute top-[60%] z-3 max-w-[29.938rem] -translate-y-1/2"
           className="absolute top-[60%] z-3 max-w-[29.938rem] -translate-y-1/2 max-lg:left-[40%] max-lg:-translate-x-1/2"
         />
         <MeetingCardSkeleton
@@ -32,7 +30,6 @@ export default function Hero() {
           processStatus={ProcessStatus.SUMMARIZING}
           uploader="Mike W."
           createdAt={new Date("April 2, 2025")}
-          // className="absolute top-[50%] left-[10%] z-2 max-w-[29.938rem] -translate-y-1/2"
           className="absolute top-[50%] left-[10%] z-2 max-w-[29.938rem] -translate-y-1/2 max-lg:left-[50%] max-lg:-translate-x-1/2"
         />
         <MeetingCardSkeleton
@@ -40,7 +37,6 @@ export default function Hero() {
           processStatus={ProcessStatus.SUMMARIZING}
           uploader="Peter P."
           createdAt={new Date("March 13, 2025")}
-          // className="absolute top-[40%] left-[20%] z-1 max-w-[29.938rem] -translate-y-1/2"
           className="absolute top-[40%] left-[20%] z-1 max-w-[29.938rem] -translate-y-1/2 max-lg:left-[60%] max-lg:-translate-x-1/2"
         />
       </div>

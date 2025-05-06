@@ -35,7 +35,7 @@ export default function NavbarClient({ isAuthenticated }: INavbarClientProps) {
       style={{ backgroundColor, boxShadow, borderColor }}
       className="sticky top-0 z-50 mb-10 flex flex-row justify-between border px-4 py-6 shadow-sm md:px-6 lg:top-4 lg:mx-8 lg:rounded-xl"
     >
-      <span className="text-3xl font-extrabold tracking-tighter">Nota</span>
+      <p className="text-3xl font-extrabold tracking-tighter">Nota</p>
       <button className="grid h-[2.5rem] place-items-center hover:cursor-pointer lg:hidden" onClick={() => setIsMenuOpen((prev) => !prev)}>
         <Menu className="size-7" />
       </button>

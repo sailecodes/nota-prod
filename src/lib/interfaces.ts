@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react";
 import { ProcessStatus } from "@/app/generated/prisma";
 
 export interface INavbarClientProps {
@@ -16,6 +17,16 @@ export interface IPricingCardProps {
   pricing: string;
   btnText: string;
   features: string[];
+}
+
+export interface ICustomSidebarGroupProps {
+  isPrimaryBtn: boolean;
+  BtnIcon?: LucideIcon;
+  btnText?: string;
+  hasGroupLabel: boolean;
+  labelText?: string;
+  groupItems?: { href: string; Icon: LucideIcon; heading: string }[];
+  className?: string;
 }
 
 export interface IMeetingCardSkeletonProps {
