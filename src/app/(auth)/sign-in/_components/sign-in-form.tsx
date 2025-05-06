@@ -46,7 +46,7 @@ export default function SignInForm() {
 
   return (
     <Form {...form}>
-      {error && <span className="text-destructive text-sm">{error}</span>}
+      {error && <p className="text-destructive text-sm">{error}</p>}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
