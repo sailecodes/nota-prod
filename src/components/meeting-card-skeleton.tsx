@@ -37,7 +37,10 @@ export default function MeetingCardSkeleton({ title, processStatus, uploader, cr
         </div>
       </CardContent>
       <CardFooter>
-        <Button disabled variant="secondary" className="w-full">
+        <Button
+          disabled
+          variant="secondary"
+          className="w-full">
           View details
         </Button>
       </CardFooter>
