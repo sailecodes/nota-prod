@@ -4,14 +4,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function MeetingsLoading() {
   return (
     <section className="mx-auto max-w-7xl space-y-[25px] p-6">
-      <div className="grid auto-rows-[300px] [grid-template-columns:repeat(auto-fit,minmax(0,408px))] justify-center gap-3">
+      <div className="grid [grid-template-columns:repeat(auto-fit,minmax(0,375px))] justify-center gap-3">
         {Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9]).map((ind) => (
           <Card
             key={ind}
-            className="bg-background justify-between">
+            className="justify-between">
             <CardHeader>
               <div className="flex items-center justify-between gap-6">
-                <Skeleton className="h-[26px] w-[100px]" />
+                <Skeleton className="h-[25px] w-[100px]" />
                 <Skeleton className="size-[24px]" />
               </div>
               <CardDescription>

@@ -36,3 +36,13 @@ export interface IMeetingCardSkeletonProps {
   createdAt: Date;
   className?: string;
 }
+
+export interface IMeetingCardProps {
+  title: string;
+  processStatus: ProcessStatus;
+  uploader: string | null;
+  createdAt: Date;
+  summary?: string;
+  actionItemsNum?: number;
+  meetingId: string;
+}

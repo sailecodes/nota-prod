@@ -22,7 +22,7 @@ export default function CustomSidebarGroup({
   className,
 }: ICustomSidebarGroupProps) {
   return (
-    <SidebarGroup className={cn("pr-0", className)}>
+    <SidebarGroup className={cn("md:pr-0", className)}>
       {hasGroupLabel && <SidebarGroupLabel>{labelText}</SidebarGroupLabel>}
       <SidebarGroupContent>
         <SidebarMenu>
