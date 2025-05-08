@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { updateUserInformation } from "@/actions/account";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -11,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { userInformationSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@supabase/supabase-js";
-import { updateUserInformation } from "../_actions/actions";
 
 export default function ProfileInformation({ user }: { user: User }) {
   const { firstName, lastName } = user.user_metadata;
@@ -34,8 +34,8 @@ export default function ProfileInformation({ user }: { user: User }) {
 
     setIsSubmitting(false);
 
-    if (!result.success) toast.error("Something went wrong. Please try again.");
-    else toast.success("User information updated!");
+    if (!result.success) toast.error("Uh oh. Something went wrong", { description: "Please try again or refresh the page." });
+    else toast.success("Updated user information!");
   };
 
   return (

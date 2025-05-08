@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { changeEmailAddress } from "@/actions/account";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -12,7 +13,6 @@ import { E_SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import { emailAddressSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@supabase/supabase-js";
-import { changeEmailAddress } from "../_actions/actions";
 
 export default function EmailAddress({ user }: { user: User }) {
   const form = useForm<z.infer<typeof emailAddressSchema>>({
@@ -35,9 +35,9 @@ export default function EmailAddress({ user }: { user: User }) {
 
     if (!result.success) {
       if (result.type === E_SERVER_ACTION_ERROR_TYPE.UI) setError(result.error);
-      toast.error("Uh oh. Something went wrong.", { description: "Please retry action or refresh the page." });
+      toast.error("Uh oh. Something went wrong.", { description: "Please try again or refresh the page." });
     } else {
-      toast.success("Email verification sent!", {
+      toast.success("Sent email verification!", {
         description: `We've sent you a confirmation email at ${formVals.email}.`,
       });
     }

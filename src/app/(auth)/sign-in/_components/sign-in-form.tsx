@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { signIn } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -12,7 +13,6 @@ import { E_SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import { signInSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordInput } from "../../../../components/password-input";
-import { signIn } from "../_actions/sign-in";
 
 export default function SignInForm() {
   const form = useForm<z.infer<typeof signInSchema>>({

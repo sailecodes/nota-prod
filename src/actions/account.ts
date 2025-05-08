@@ -16,11 +16,11 @@ export const updateUserInformation = createServerAction(async function (
     const supabase = await createClient();
     const {
       data: { user: sbUser },
-      error: sbClientError,
+      error: getUserError,
     } = await supabase.auth.getUser();
 
-    if (sbClientError) throw new ServerActionError(sbClientError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
-    else if (!sbUser) throw new ServerActionError();
+    if (getUserError) throw new ServerActionError(getUserError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+    else if (!sbUser) throw new ServerActionError("Unauthorized access", { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     const { data: parsedData, error: parseError } = userInformationSchema.safeParse(data);
 
@@ -51,11 +51,11 @@ export const changeEmailAddress = createServerAction(async function (
     const supabase = await createClient();
     const {
       data: { user: sbUser },
-      error: sbClientError,
+      error: getUserError,
     } = await supabase.auth.getUser();
 
-    if (sbClientError) throw new ServerActionError(sbClientError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
-    else if (!sbUser) throw new ServerActionError();
+    if (getUserError) throw new ServerActionError(getUserError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+    else if (!sbUser) throw new ServerActionError("Unauthorized access", { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     const { data: parsedData, error: parseError } = emailAddressSchema.safeParse(data);
 
@@ -82,6 +82,29 @@ export const changeEmailAddress = createServerAction(async function (
     return { success: true };
   } catch (err) {
     // TODO: Implement rollback
+    throw err;
+  }
+});
+
+export const sendPasswordResetLink = createServerAction(async function (): Promise<TServerActionResult<undefined, undefined>> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user: sbUser },
+      error: getUserError,
+    } = await supabase.auth.getUser();
+
+    if (getUserError) throw new ServerActionError(getUserError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+    else if (!sbUser) throw new ServerActionError("Unauthorized access", { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+
+    const { error: resetPasswordError } = await supabase.auth.resetPasswordForEmail(sbUser.email!, {
+      redirectTo: `${process.env.LOCAL_URL}/reset-password`,
+    });
+
+    if (resetPasswordError) throw new ServerActionError(resetPasswordError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+
+    return { success: true };
+  } catch (err) {
     throw err;
   }
 });

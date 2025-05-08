@@ -67,7 +67,7 @@ export function createServerAction<TArgs extends any[], TReturn extends TServerA
 
       return result;
     } catch (err) {
-      console.error("[Server action -- verbatim] ", err);
+      console.error("[Server Action Error -- Verbatim] ", err);
 
       let error = "Something went wrong. Please try again.";
       let type = E_SERVER_ACTION_ERROR_TYPE.UNKNOWN;
@@ -77,7 +77,7 @@ export function createServerAction<TArgs extends any[], TReturn extends TServerA
         type = err.metadata.type;
       }
 
-      console.error(`[Server action -- simplified] Type ${type}:`, error);
+      console.error(`[Server Action Error -- Simplified] Type ${type}:`, error);
 
       return {
         success: false,

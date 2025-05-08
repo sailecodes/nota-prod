@@ -17,7 +17,7 @@ export default async function Account() {
     <div className="flex flex-col gap-3">
       <UserInformation user={sbUser} />
       <EmailAddress user={sbUser} />
-      <Password />
+      <Password user={sbUser} />
       <DangerZone />
     </div>
   );
