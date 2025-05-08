@@ -60,7 +60,10 @@ export default function EmailAddress({ user }: { user: User }) {
                 <FormItem className="flex-1">
                   <FormLabel>Primary</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      className="text-sm"
+                    />
                   </FormControl>
                   <FormMessage>{error}</FormMessage>
                 </FormItem>

@@ -55,7 +55,10 @@ export default function ProfileInformation({ user }: { user: User }) {
                 <FormItem className="flex-1">
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      className="text-sm"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -68,7 +71,10 @@ export default function ProfileInformation({ user }: { user: User }) {
                 <FormItem className="flex-1">
                   <FormLabel>Last Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      className="text-sm"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -5,6 +5,7 @@ import { ServerActionError } from "@/lib/classes";
 import { E_SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import prisma from "@/lib/prisma";
 import { emailAddressSchema, userInformationSchema } from "@/lib/schemas";
+import { sbAdmin } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { TServerActionResult } from "@/lib/types";
 import { createServerAction } from "@/lib/utils";
@@ -102,6 +103,31 @@ export const sendPasswordResetLink = createServerAction(async function (): Promi
     });
 
     if (resetPasswordError) throw new ServerActionError(resetPasswordError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+
+    return { success: true };
+  } catch (err) {
+    throw err;
+  }
+});
+
+export const deleteAccount = createServerAction(async function (): Promise<TServerActionResult<undefined, undefined>> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user: sbUser },
+      error: getUserError,
+    } = await supabase.auth.getUser();
+
+    if (getUserError) throw new ServerActionError(getUserError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+    else if (!sbUser) throw new ServerActionError("Unauthorized access", { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+
+    const { error: deleteUserError } = await sbAdmin.deleteUser(sbUser.id);
+
+    if (deleteUserError) throw new ServerActionError(deleteUserError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+
+    await prisma.user.delete({
+      where: { sbId: sbUser.id },
+    });
 
     return { success: true };
   } catch (err) {
