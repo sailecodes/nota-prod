@@ -8,11 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { IMeetingCardProps } from "@/lib/interfaces";
 import { getMeetingSkeletonColor, getMeetingStatusBadgeColor, parseDate, parseStatus } from "@/lib/utils";
 
-// export default function MeetingCard({ title, processStatus, uploader, createdAt, summary, actionItemsNum, meetingId }: IMeetingCardProps) {
-export default function MeetingCard({ title, processStatus, createdAt, meetingId }: IMeetingCardProps) {
-  const summary =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit ab blanditiis optio, itaque mollitia, facilis cumque, necessitatibus beatae expedita voluptas quasi nisi dolorem officiis? Nulla ab autem quia minus repellat.";
-  const numActionItems = 1;
+export default function MeetingCard({ title, processStatus, uploader, createdAt, summary, numActionItems, meetingId }: IMeetingCardProps) {
   return (
     <Card className="justify-between">
       <CardHeader>
@@ -20,8 +16,9 @@ export default function MeetingCard({ title, processStatus, createdAt, meetingId
           <CardTitle className="line-clamp-2 leading-5">{title}</CardTitle>
           <Badge className={getMeetingStatusBadgeColor(processStatus)}>{parseStatus(processStatus)}</Badge>
         </div>
-        <CardDescription>Uploaded by Elias R.</CardDescription>
-        {/* <CardDescription>Uploaded by {uploader}</CardDescription> */}
+        <CardDescription>
+          Uploaded by {uploader.firstName} {uploader.lastName.charAt(0)}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="text-muted-foreground flex items-center gap-2 text-sm">

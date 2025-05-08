@@ -31,8 +31,8 @@ export const geminiResponseSchema = z.object({
   actionItems: z.array(
     z.object({
       action: z.string(),
-      assignee: z.string().optional(),
-      dueDate: z.string().optional(),
+      assignee: z.string().nullable().optional(),
+      dueDate: z.string().nullable().optional(),
     }),
   ),
 });
@@ -41,8 +41,8 @@ export const actionItemSchema = z.object({
   actionItems: z.array(
     z.object({
       action: z.string(),
-      assignee: z.string().optional(),
-      dueDate: z.string().optional(),
+      assignee: z.string().nullable().optional(),
+      dueDate: z.string().nullable().optional(),
     }),
   ),
 });

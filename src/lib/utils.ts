@@ -25,8 +25,8 @@ export function parseStatus(status: DueStatus | ProcessStatus) {
     .join(" ");
 }
 
-export function parseDate(date: Date) {
-  return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+export function parseDate(date: Date | null) {
+  return date ? date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "TBD";
 }
 
 // =======================================================================
@@ -44,6 +44,19 @@ export function getMeetingSkeletonColor(status: ProcessStatus) {
   if (status === ProcessStatus.TRANSCRIBING) return "bg-violet-200/50";
   else if (status === ProcessStatus.SUMMARIZING) return "bg-blue-200/50";
   else return "bg-gray-200/50";
+}
+
+// =======================================================================
+// Action Items
+
+export function getActionItemStatusBadgeColor(status: DueStatus) {
+  if (status === "NEW") return "text-teal-800 bg-teal-100";
+  else if (status === "UPCOMING") return "text-violet-800 bg-violet-100";
+  else if (status === "DUE_SOON") return "text-orange-800 bg-orange-100";
+  else if (status === "COMPLETED") return "text-green-800 bg-green-100";
+  else if (status === "OVERDUE") return "text-red-800 bg-red-100";
+  else if (status === "TBD") return "text-stone-800 bg-stone-100";
+  else return "text-gray-800 bg-gray-100";
 }
 
 // =======================================================================

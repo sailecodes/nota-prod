@@ -3,7 +3,7 @@ import { createUploadthing, FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { summarize } from "@/actions/summarize";
 import { transcribe } from "@/actions/transcribe";
-import { ProcessStatus } from "@/app/generated/prisma";
+import { DueStatus, ProcessStatus } from "@/app/generated/prisma";
 import prisma from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
 
@@ -12,7 +12,7 @@ const f = createUploadthing();
 export const ourFileRouter = {
   audioUploader: f({
     audio: {
-      maxFileSize: "32MB",
+      maxFileSize: "128MB",
       maxFileCount: 1,
     },
   })
@@ -121,14 +121,14 @@ export const ourFileRouter = {
         revalidatePath("/dashboard");
       } catch (err) {
         // TODO: Implement rollback
-        console.error("[uploading Error -- verbatim] ", err);
+        console.error("[uploadthing Error -- verbatim] ", err);
 
         await prisma.upload.update({
           where: { id: possibleUploadId },
           data: { processStatus: ProcessStatus.FAILED },
         });
 
-        throw err;
+        throw new UploadThingError("Something went wrong. Please try again.");
       }
     }),
 } satisfies FileRouter;
@@ -142,8 +142,8 @@ const isValidDate = (date: string) => {
 
 type RawActionItem = {
   action: string;
-  assignee?: string;
-  dueDate?: string;
+  assignee?: string | null;
+  dueDate?: string | null;
 };
 
 export async function formatActionItems(items: RawActionItem[], resultId: string) {
@@ -168,6 +168,7 @@ export async function formatActionItems(items: RawActionItem[], resultId: string
       return {
         action: item.action,
         dueDate,
+        dueStatus: dueDate ? DueStatus.NEW : DueStatus.TBD,
         assigneeId,
         resultId,
       };

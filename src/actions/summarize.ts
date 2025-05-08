@@ -20,11 +20,15 @@ What is an action item?
 - Each item must include:
   - The task to be done (action)
   - The person responsible for it (assignee) — if not explicitly mentioned, use undefined
-  - A due date only if clearly stated or implied (e.g. "by Friday")
+  - A due date only if clearly stated or implied
 
 Do NOT:
 - Invent tasks or due dates not explicitly mentioned
 - Include vague or general statements like "We should think about this" unless there's a task attached
+
+Keep in mind for action items:
+- If no assignee is mentioned, use the value null (not the string "undefined" or any other value besides null)
+- Format due dates as actual dates, i.e. "January 1, 2025" or "01-01-2025"
 
 Example action items:
 - "Prepare Q2 financial report by next Monday" → ✅
@@ -51,14 +55,16 @@ Return the result in the following JSON format:
   "actionItems": [
     {
       "action": "What needs to be done",
-      "assignee": "Name" or undefined,
-      "dueDate": "YYYY-MM-DD" or undefined
+      "assignee": "Name" or null,
+      "dueDate": "YYYY-MM-DD" or null
     },
     ...
   ]
 }
 `,
   });
+
+  console.log(text);
 
   const jsonData = JSON.parse(
     text
@@ -68,7 +74,10 @@ Return the result in the following JSON format:
   );
   const { data: parsedData, error } = geminiResponseSchema.safeParse(jsonData);
 
-  if (error) return { error: "Data couldn't be parsed" };
+  if (error) {
+    console.error(`[Gemini] ${error.message}`);
+    return { error: "Data couldn't be parsed" };
+  }
 
   return parsedData;
 }

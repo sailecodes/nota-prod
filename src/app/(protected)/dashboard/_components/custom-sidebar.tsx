@@ -1,4 +1,4 @@
-import { LayoutDashboard, NotebookText, PlusCircle, UserCircle2 } from "lucide-react";
+import { LayoutDashboard, NotebookText, UserCircle2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from "@/components/ui/sidebar";
 import { createClient } from "@/lib/supabase/server";

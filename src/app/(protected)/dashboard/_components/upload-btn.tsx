@@ -56,7 +56,7 @@ export default function UploadButton() {
       onOpenChange={handleDialogOpenChange}
       open={isDialogOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full hover:cursor-pointer">
+        <Button className="w-full py-5 hover:cursor-pointer">
           <PlusCircle />
           <span>Upload meeting</span>
         </Button>
@@ -76,11 +76,11 @@ export default function UploadButton() {
           <Upload className="size-12" />
           <div className="flex flex-col items-center">
             <span className="text-base font-medium">{isFileReady ? files[0].name : "Choose a file or drag and drop"}</span>
-            <span className="text-muted-foreground">Audio (32MB)</span>
+            <span className="text-muted-foreground">Audio (128MB)</span>
           </div>
           <Button
             onClick={() => startUpload(files)}
-            disabled={!isFileReady}
+            disabled={isUploading || !isFileReady}
             variant={isFileReady ? "default" : "secondary"}
             className="w-[150px] hover:cursor-pointer">
             {isUploading ? "Uploading..." : isFileReady ? "Upload file" : "Select file"}
