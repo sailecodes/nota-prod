@@ -21,8 +21,6 @@ export interface IPricingCardProps {
 
 export interface ICustomSidebarGroupProps {
   isPrimaryBtn: boolean;
-  BtnIcon?: LucideIcon;
-  btnText?: string;
   hasGroupLabel: boolean;
   labelText?: string;
   groupItems?: { href: string; Icon: LucideIcon; heading: string }[];

@@ -19,8 +19,6 @@ export default async function CustomSidebar() {
       <SidebarContent>
         <CustomSidebarGroup
           isPrimaryBtn={true}
-          BtnIcon={PlusCircle}
-          btnText="Upload File"
           hasGroupLabel={false}
           className="mt-2"
         />

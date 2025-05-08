@@ -5,20 +5,16 @@
 <!-- Auth -->
 
 /actions/auth.ts
-
 /reset-password/page.tsx
 /reset-password/\_components/reset-password-form.tsx
-
 /sign-in/page.tsx
 /sign-in/\_components/sign-in-form.tsx
-
 /sign-up/page.tsx
 /sign-up/\_components/sign-up-form.tsx
 
 <!-- Account -->
 
 /actions/account.ts
-
 /account/loading.tsx
 /account/page.tsx
 /account/\_components/danger-zone.tsx

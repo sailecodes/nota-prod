@@ -9,7 +9,6 @@ import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { E_SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import { signUpSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 

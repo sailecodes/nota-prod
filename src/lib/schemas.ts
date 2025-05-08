@@ -25,3 +25,24 @@ export const emailAddressSchema = z.object({
 export const passwordSchema = z.object({
   password: z.string().min(8, "Must be at least 8 characters long"),
 });
+
+export const geminiResponseSchema = z.object({
+  summary: z.string(),
+  actionItems: z.array(
+    z.object({
+      action: z.string(),
+      assignee: z.string().optional(),
+      dueDate: z.string().optional(),
+    }),
+  ),
+});
+
+export const actionItemSchema = z.object({
+  actionItems: z.array(
+    z.object({
+      action: z.string(),
+      assignee: z.string().optional(),
+      dueDate: z.string().optional(),
+    }),
+  ),
+});

@@ -29,7 +29,7 @@ export type TServerActionResult<TData = undefined, TMetadata = undefined> =
   | TServerActionSuccess<TData, TMetadata>
   | TServerActionFailure<TMetadata>;
 
-export type TServerActionErrorMetadata<TMetadata = undefined> = {
+export type TServerActionErrorMetadata = {
   type: E_SERVER_ACTION_ERROR_TYPE;
   origin?: string;
 };

@@ -5,7 +5,7 @@ import SignUpForm from "./_components/sign-up-form";
 
 export const metadata: Metadata = {
   title: "Sign Up",
-  description: "Sign up to register with Nota",
+  description: "Sign up to register with Nota.",
 };
 
 export default function SignUp() {
