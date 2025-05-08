@@ -22,21 +22,24 @@ export const signUp = createServerAction(async function (
       where: { OR: [{ email: parsedData.email }, { username: parsedData.username }] },
     });
 
-    if (userWithExistingField) throw new ServerActionError("Email or username already exists", { type: E_SERVER_ACTION_ERROR_TYPE.UI });
+    if (userWithExistingField) throw new ServerActionError("Email or username already exists", { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     const supabase = await createClient();
-    const { data: user, error: signUpError } = await supabase.auth.signUp({
+    const {
+      data: { user: sbUser },
+      error: signUpError,
+    } = await supabase.auth.signUp({
       email: parsedData.email,
       password: parsedData.password,
       options: { data: { ...parsedData }, emailRedirectTo: `${process.env.LOCAL_URL}/sign-in` },
     });
 
     if (signUpError) throw new ServerActionError(signUpError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
-    else if (!user || !user.user) throw new ServerActionError();
+    else if (!sbUser) throw new ServerActionError();
 
     await prisma.user.create({
       data: {
-        sbId: user.user.id,
+        sbId: sbUser.id,
         email: parsedData.email,
         username: parsedData.username,
         firstName: parsedData.firstName,
@@ -60,12 +63,15 @@ export const signIn = createServerAction(async function (
     if (parseError) throw new ServerActionError(parseError.issues[0].message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     const supabase = await createClient();
-    const { data: user, error: signInError } = await supabase.auth.signInWithPassword({ ...parsedData });
+    const {
+      data: { user: sbUser },
+      error: signInError,
+    } = await supabase.auth.signInWithPassword({ ...parsedData });
 
-    if (signInError) throw new ServerActionError(signInError.message, { type: E_SERVER_ACTION_ERROR_TYPE.UI });
-    else if (!user || !user.user) throw new ServerActionError();
+    if (signInError) throw new ServerActionError(signInError.message, { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
+    else if (!sbUser) throw new ServerActionError();
 
-    return { success: true, data: { user: user.user }, metadata: { redirectUrl: "/dashboard" } };
+    return { success: true, data: { user: sbUser }, metadata: { redirectUrl: "/dashboard" } };
   } catch (err) {
     throw err;
   }

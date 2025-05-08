@@ -1,8 +1,14 @@
+import { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import DangerZone from "./_components/danger-zone";
 import EmailAddress from "./_components/email-address";
 import Password from "./_components/password";
 import UserInformation from "./_components/user-information";
+
+export const metadata: Metadata = {
+  title: "Account",
+  description: "Update your information, change your primary email, reset your password, and delete your account.",
+};
 
 export default async function Account() {
   const supabase = await createClient();

@@ -24,18 +24,26 @@ export default function SignUpForm() {
       lastName: "",
     },
   });
+
   const [error, setError] = useState<string | undefined>(undefined);
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
-  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
+  const handleSignUp = async (data: z.infer<typeof signUpSchema>) => {
     setIsSigningUp(true);
 
     const result = await signUp(data);
 
-    if (!result.success && result.type === E_SERVER_ACTION_ERROR_TYPE.UI) {
-      setError(result.error);
+    if (!result.success) {
+      if (result.error.includes("exists")) setError(result.error);
+      else toast.error("🫠 Uh oh. Something went wrong.", { description: "Please try again or refresh the page." });
     } else {
-      toast.success(`Check ${result.metadata!.email} to confirm your account!`);
+      toast.info(`✉️ Sent email verification`, {
+        description: () => (
+          <p>
+            Please check <span className="underline">{result.metadata!.email}</span> for the confirmation link.
+          </p>
+        ),
+      });
     }
 
     setIsSigningUp(false);
@@ -45,7 +53,7 @@ export default function SignUpForm() {
     <Form {...form}>
       {error && <p className="text-destructive text-sm">{error}</p>}
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleSignUp)}
         className="space-y-4">
         <FormField
           control={form.control}
@@ -58,7 +66,7 @@ export default function SignUpForm() {
                   {...field}
                   type="email"
                   autoComplete="email"
-                  className="bg-background"
+                  className="bg-background text-sm"
                   onInput={() => setError(undefined)}
                 />
               </FormControl>
@@ -76,7 +84,7 @@ export default function SignUpForm() {
                 <PasswordInput
                   {...field}
                   autoComplete="new-password"
-                  className="bg-background"
+                  className="bg-background text-sm"
                   onInput={() => setError(undefined)}
                 />
               </FormControl>
@@ -94,7 +102,7 @@ export default function SignUpForm() {
                 <Input
                   {...field}
                   autoComplete="username"
-                  className="bg-background"
+                  className="bg-background text-sm"
                   onInput={() => setError(undefined)}
                 />
               </FormControl>
@@ -112,7 +120,7 @@ export default function SignUpForm() {
                 <Input
                   {...field}
                   autoComplete="given-name"
-                  className="bg-background"
+                  className="bg-background text-sm"
                   onInput={() => setError(undefined)}
                 />
               </FormControl>
@@ -130,7 +138,7 @@ export default function SignUpForm() {
                 <Input
                   {...field}
                   autoComplete="family-name"
-                  className="bg-background"
+                  className="bg-background text-sm"
                   onInput={() => setError(undefined)}
                 />
               </FormControl>

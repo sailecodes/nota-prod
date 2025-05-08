@@ -25,7 +25,7 @@ export default function EmailAddress({ user }: { user: User }) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
-  const handleFormSubmit = async (data: z.infer<typeof emailAddressSchema>) => {
+  const handleEmailChange = async (data: z.infer<typeof emailAddressSchema>) => {
     setIsUpdating(true);
 
     const result = await changeEmailAddress(data);
@@ -34,7 +34,7 @@ export default function EmailAddress({ user }: { user: User }) {
       if (result.error.includes("exists")) setError(result.error);
       else toast.error("🫠 Uh oh. Something went wrong.", { description: "Please try again or refresh the page." });
     } else {
-      toast.success("✉️ Sent email verification", {
+      toast.info("✉️ Sent email verification", {
         description: () => (
           <p>
             Please check <span className="underline">{formVals.email}</span> for the confirmation link.
@@ -54,7 +54,7 @@ export default function EmailAddress({ user }: { user: User }) {
       <CardContent className="space-y-6">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleFormSubmit)}
+            onSubmit={form.handleSubmit(handleEmailChange)}
             className="xs:flex-row flex flex-col gap-4">
             <FormField
               control={form.control}
@@ -65,7 +65,7 @@ export default function EmailAddress({ user }: { user: User }) {
                   <FormControl>
                     <Input
                       {...field}
-                      className="text-sm"
+                      className="bg-muted text-sm"
                     />
                   </FormControl>
                   <FormMessage>{error}</FormMessage>

@@ -20,23 +20,25 @@ export default function ResetPasswordForm() {
     },
   });
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isResetting, setIsResetting] = useState<boolean>(false);
 
-  const onSubmit = async (data: z.infer<typeof passwordSchema>) => {
-    setIsLoading(true);
+  const handleResetPassword = async (data: z.infer<typeof passwordSchema>) => {
+    setIsResetting(true);
 
     const result = await resetPassword(data);
 
-    if (!result.success) toast.error("Uh oh. Something went wrong.", { description: "Please try again or refresh the page." });
-
-    setIsLoading(false);
-    router.push("/sign-in");
+    if (!result.success) {
+      toast.error("🫠 Uh oh. Something went wrong.", { description: "Please try again or refresh the page." });
+      setIsResetting(false);
+    } else {
+      router.push("/sign-in");
+    }
   };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleResetPassword)}
         className="space-y-4">
         <FormField
           control={form.control}
@@ -47,7 +49,7 @@ export default function ResetPasswordForm() {
               <FormControl>
                 <PasswordInput
                   {...field}
-                  className="bg-background"
+                  className="bg-background text-sm"
                 />
               </FormControl>
               <FormMessage />
@@ -57,9 +59,9 @@ export default function ResetPasswordForm() {
         <Button
           type="submit"
           size="lg"
-          disabled={isLoading}
+          disabled={isResetting}
           className="w-full hover:cursor-pointer">
-          {isLoading ? "Signing in..." : "Sign in"}
+          {isResetting ? "Resetting..." : "Reset"}
         </Button>
       </form>
     </Form>

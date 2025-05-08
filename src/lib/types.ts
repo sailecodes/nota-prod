@@ -32,5 +32,4 @@ export type TServerActionResult<TData = undefined, TMetadata = undefined> =
 export type TServerActionErrorMetadata<TMetadata = undefined> = {
   type: E_SERVER_ACTION_ERROR_TYPE;
   origin?: string;
-  metadata?: TMetadata;
 };

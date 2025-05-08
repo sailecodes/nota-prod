@@ -27,7 +27,7 @@ export default function ProfileInformation({ user }: { user: User }) {
 
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-  const handleFormSubmit = async (data: z.infer<typeof userInformationSchema>) => {
+  const handleInformationUpdate = async (data: z.infer<typeof userInformationSchema>) => {
     setIsUpdating(true);
 
     const result = await updateUserInformation(data);
@@ -46,7 +46,7 @@ export default function ProfileInformation({ user }: { user: User }) {
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleFormSubmit)}
+            onSubmit={form.handleSubmit(handleInformationUpdate)}
             className="xs:flex-row flex flex-col gap-4">
             <FormField
               control={form.control}
@@ -57,7 +57,7 @@ export default function ProfileInformation({ user }: { user: User }) {
                   <FormControl>
                     <Input
                       {...field}
-                      className="text-sm"
+                      className="bg-muted text-sm"
                     />
                   </FormControl>
                   <FormMessage />
@@ -73,7 +73,7 @@ export default function ProfileInformation({ user }: { user: User }) {
                   <FormControl>
                     <Input
                       {...field}
-                      className="text-sm"
+                      className="bg-muted text-sm"
                     />
                   </FormControl>
                   <FormMessage />

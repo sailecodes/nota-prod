@@ -22,7 +22,7 @@ export default function DangerZone() {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-  const handleDeleteAccount = async () => {
+  const handleAccountDeletion = async () => {
     setIsDeleting(true);
 
     const result = await deleteAccount();
@@ -66,7 +66,7 @@ export default function DangerZone() {
               </AlertDialogCancel>
               <AlertDialogAction
                 className="hover:cursor-pointer"
-                onClick={handleDeleteAccount}
+                onClick={handleAccountDeletion}
                 disabled={isDeleting}>
                 {isDeleting ? "Deleting..." : "Continue"}
               </AlertDialogAction>

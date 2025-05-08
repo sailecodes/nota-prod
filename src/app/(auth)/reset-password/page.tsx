@@ -5,7 +5,7 @@ import ResetPasswordForm from "./_components/reset-password-form";
 
 export const metadata: Metadata = {
   title: "Reset Password",
-  description: "Reset the password of your Nota account",
+  description: "Reset the password of your Nota account.",
 };
 
 export default function SignIn() {
