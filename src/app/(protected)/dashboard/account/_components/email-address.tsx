@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { E_SERVER_ACTION_ERROR_TYPE } from "@/lib/enums";
 import { emailAddressSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@supabase/supabase-js";
@@ -23,24 +22,28 @@ export default function EmailAddress({ user }: { user: User }) {
   });
   const formVals = form.watch();
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
   const handleFormSubmit = async (data: z.infer<typeof emailAddressSchema>) => {
-    setIsSubmitting(true);
+    setIsUpdating(true);
 
     const result = await changeEmailAddress(data);
 
-    setIsSubmitting(false);
-
     if (!result.success) {
-      if (result.type === E_SERVER_ACTION_ERROR_TYPE.UI) setError(result.error);
-      toast.error("Uh oh. Something went wrong.", { description: "Please try again or refresh the page." });
+      if (result.error.includes("exists")) setError(result.error);
+      else toast.error("🫠 Uh oh. Something went wrong.", { description: "Please try again or refresh the page." });
     } else {
-      toast.success("Sent email verification!", {
-        description: `We've sent you a confirmation email at ${formVals.email}.`,
+      toast.success("✉️ Sent email verification", {
+        description: () => (
+          <p>
+            Please check <span className="underline">{formVals.email}</span> for the confirmation link.
+          </p>
+        ),
       });
     }
+
+    setIsUpdating(false);
   };
 
   return (
@@ -72,9 +75,9 @@ export default function EmailAddress({ user }: { user: User }) {
             <Button
               type="submit"
               variant="secondary"
-              disabled={isSubmitting || formVals.email === user.email}
+              disabled={isUpdating || formVals.email === user.email}
               className="xs:ml-auto xs:self-end w-[130px]">
-              {isSubmitting ? "Changing..." : "Change"}
+              {isUpdating ? "Changing..." : "Change"}
             </Button>
           </form>
         </Form>

@@ -66,7 +66,7 @@ export const changeEmailAddress = createServerAction(async function (
       where: { ...parsedData },
     });
 
-    if (userWithEmail) throw new ServerActionError("Email is already registered", { type: E_SERVER_ACTION_ERROR_TYPE.UI });
+    if (userWithEmail) throw new ServerActionError("Email already exists", { type: E_SERVER_ACTION_ERROR_TYPE.KNOWN });
 
     const { error: updateUserError } = await supabase.auth.updateUser(
       { ...parsedData },

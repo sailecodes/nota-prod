@@ -6,9 +6,9 @@ export default async function Meetings() {
   /*
   
   const supabase = await createClient();
-  const { data: { user: sbUser }, error: sbClientError } = await supabase.auth.getUser();
+  const { data: { user: sbUser }, error: getUserError } = await supabase.auth.getUser();
 
-  if (sbClientError || !sbUser) throw new Error('Something went wrong. Please refresh the page.');
+  if (getUserError || !sbUser) throw new Error('Something went wrong. Please refresh the page.');
   
   const meetings = await prisma.meeting.findAll({ where: { sbId: sbUser.id } });
   */

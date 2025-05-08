@@ -46,7 +46,7 @@ export default function DangerZone() {
           <AlertDialogTrigger asChild>
             <Button
               variant="destructive"
-              className="w-[158px] hover:cursor-pointer">
+              className="w-[150px] hover:cursor-pointer">
               Delete account
             </Button>
           </AlertDialogTrigger>
