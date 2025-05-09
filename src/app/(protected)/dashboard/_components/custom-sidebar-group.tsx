@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -11,16 +10,9 @@ import {
 } from "@/components/ui/sidebar";
 import { ICustomSidebarGroupProps } from "@/lib/interfaces";
 import { cn } from "@/lib/utils";
+import UploadButton from "./upload-btn";
 
-export default function CustomSidebarGroup({
-  isPrimaryBtn,
-  BtnIcon,
-  btnText,
-  hasGroupLabel,
-  labelText,
-  groupItems,
-  className,
-}: ICustomSidebarGroupProps) {
+export default function CustomSidebarGroup({ isPrimaryBtn, hasGroupLabel, labelText, groupItems, className }: ICustomSidebarGroupProps) {
   return (
     <SidebarGroup className={cn("md:pr-0", className)}>
       {hasGroupLabel && <SidebarGroupLabel>{labelText}</SidebarGroupLabel>}
@@ -28,12 +20,9 @@ export default function CustomSidebarGroup({
         <SidebarMenu>
           {isPrimaryBtn ? (
             <SidebarMenuItem>
-              <Button
-                size="lg"
-                className="w-full">
-                {BtnIcon && <BtnIcon />}
-                {btnText}
-              </Button>
+              <SidebarMenuButton asChild>
+                <UploadButton />
+              </SidebarMenuButton>
             </SidebarMenuItem>
           ) : (
             groupItems!.map((item) => (

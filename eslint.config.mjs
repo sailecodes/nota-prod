@@ -14,6 +14,8 @@ const eslintConfig = [
     extends: ["next", "next/core-web-vitals", "next/typescript", "prettier"],
     rules: {
       "react/no-unescaped-entities": "off",
+      // Comment below rules during development
+      "@typescript-eslint/no-explicit-any": "off",
     },
     ignorePatterns: ["node_modules", "src/generated/**/*", "src/**/generated/**/*"],
   }),

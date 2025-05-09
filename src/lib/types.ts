@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SERVER_ACTION_ERROR_TYPE } from "./enums";
+import { E_SERVER_ACTION_ERROR_TYPE } from "./enums";
 import { signInSchema, signUpSchema } from "./schemas";
 
 // =======================================================================
@@ -21,7 +21,7 @@ export type TServerActionSuccess<TData = undefined, TMetadata = undefined> = {
 export type TServerActionFailure<TMetadata = undefined> = {
   success: false;
   error: string;
-  type: SERVER_ACTION_ERROR_TYPE;
+  type: E_SERVER_ACTION_ERROR_TYPE;
   metadata?: TMetadata & { redirectUrl?: string };
 };
 
@@ -29,8 +29,7 @@ export type TServerActionResult<TData = undefined, TMetadata = undefined> =
   | TServerActionSuccess<TData, TMetadata>
   | TServerActionFailure<TMetadata>;
 
-export type TServerActionErrorMetadata<TMetadata = undefined> = {
-  type: SERVER_ACTION_ERROR_TYPE;
+export type TServerActionErrorMetadata = {
+  type: E_SERVER_ACTION_ERROR_TYPE;
   origin?: string;
-  metadata?: TMetadata;
 };

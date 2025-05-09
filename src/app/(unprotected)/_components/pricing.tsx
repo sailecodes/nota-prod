@@ -16,7 +16,7 @@ export default function Pricing() {
           pricing="Free"
           btnText="Sign up"
           features={[
-            "5 uploads/mo (32MB per)",
+            "5 uploads/mo (128MB per)",
             "AI-powered transcription & summaries",
             "Automatic action item extraction",
             "Access to dashboard",

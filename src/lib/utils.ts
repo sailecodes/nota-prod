@@ -2,7 +2,7 @@ import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { DueStatus, ProcessStatus } from "@/app/generated/prisma";
 import { ServerActionError } from "./classes";
-import { SERVER_ACTION_ERROR_TYPE } from "./enums";
+import { E_SERVER_ACTION_ERROR_TYPE } from "./enums";
 import { TServerActionResult } from "./types";
 
 // =======================================================================
@@ -25,8 +25,8 @@ export function parseStatus(status: DueStatus | ProcessStatus) {
     .join(" ");
 }
 
-export function parseDate(date: Date) {
-  return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+export function parseDate(date: Date | null) {
+  return date ? date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "TBD";
 }
 
 // =======================================================================
@@ -47,10 +47,24 @@ export function getMeetingSkeletonColor(status: ProcessStatus) {
 }
 
 // =======================================================================
+// Action Items
+
+export function getActionItemStatusBadgeColor(status: DueStatus) {
+  if (status === "NEW") return "text-teal-800 bg-teal-100";
+  else if (status === "UPCOMING") return "text-violet-800 bg-violet-100";
+  else if (status === "DUE_SOON") return "text-orange-800 bg-orange-100";
+  else if (status === "COMPLETED") return "text-green-800 bg-green-100";
+  else if (status === "OVERDUE") return "text-red-800 bg-red-100";
+  else if (status === "TBD") return "text-stone-800 bg-stone-100";
+  else return "text-gray-800 bg-gray-100";
+}
+
+// =======================================================================
 // Server Actions
 
 /*
-__ USAGE:
+_________
+__USAGE__
 
 export const serverAction = createServerAction<[string, string, number], number>(
   async function (a: string, b: string, c: number): Promise<number> {
@@ -67,17 +81,17 @@ export function createServerAction<TArgs extends any[], TReturn extends TServerA
 
       return result;
     } catch (err) {
-      console.error("[Server action -- verbatim] ", err);
+      console.error("[Server Action Error -- Verbatim] ", err);
 
       let error = "Something went wrong. Please try again.";
-      let type = SERVER_ACTION_ERROR_TYPE.UNKNOWN;
+      let type = E_SERVER_ACTION_ERROR_TYPE.UNKNOWN;
 
       if (err instanceof ServerActionError && err.metadata) {
         error = err.message;
         type = err.metadata.type;
       }
 
-      console.error(`[Server action -- simplified] Type ${type}:`, error);
+      console.error(`[Server Action Error -- Simplified] Type ${type}:`, error);
 
       return {
         success: false,
