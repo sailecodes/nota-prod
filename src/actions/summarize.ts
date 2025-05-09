@@ -64,8 +64,6 @@ Return the result in the following JSON format:
 `,
   });
 
-  console.log(text);
-
   const jsonData = JSON.parse(
     text
       .trim()
